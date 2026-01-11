@@ -30,7 +30,8 @@ namespace Inventory.Tests.Services
         [Fact]
         public async Task RegisterAsync_UniqueUsername_CreatesUser()
         {
-            _userRepoMock.Setup(r => r.GetByCodeAsync("newuser")).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>()))
+                .ReturnsAsync(new List<User>());
             _userRepoMock.Setup(r => r.AddAsync(It.IsAny<User>())).Returns(Task.CompletedTask);
             _unitOfWorkMock.Setup(u => u.SaveChangesAsync()).ReturnsAsync(1);
 
@@ -47,7 +48,8 @@ namespace Inventory.Tests.Services
         public async Task RegisterAsync_DuplicateUsername_ThrowsInvalidOperationException()
         {
             var existingUser = new User { Id = 1, Username = "existinguser", PasswordHash = "hash", Role = "User" };
-            _userRepoMock.Setup(r => r.GetByCodeAsync("existinguser")).ReturnsAsync(existingUser);
+            _userRepoMock.Setup(r => r.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>()))
+                .ReturnsAsync(new List<User> { existingUser });
 
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
                 _authService.RegisterAsync("existinguser", "Password123!", "User"));
@@ -58,7 +60,8 @@ namespace Inventory.Tests.Services
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword("Password123!");
             var user = new User { Id = 1, Username = "testuser", PasswordHash = hashedPassword, Role = "User" };
-            _userRepoMock.Setup(r => r.GetByCodeAsync("testuser")).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>()))
+                .ReturnsAsync(new List<User> { user });
 
             var token = await _authService.LoginAsync("testuser", "Password123!");
 
@@ -71,7 +74,8 @@ namespace Inventory.Tests.Services
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword("CorrectPassword");
             var user = new User { Id = 1, Username = "testuser", PasswordHash = hashedPassword, Role = "User" };
-            _userRepoMock.Setup(r => r.GetByCodeAsync("testuser")).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>()))
+                .ReturnsAsync(new List<User> { user });
 
             var token = await _authService.LoginAsync("testuser", "WrongPassword");
 
@@ -81,7 +85,8 @@ namespace Inventory.Tests.Services
         [Fact]
         public async Task LoginAsync_NonExistentUser_ReturnsNull()
         {
-            _userRepoMock.Setup(r => r.GetByCodeAsync("nonexistent")).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>()))
+                .ReturnsAsync(new List<User>());
 
             var token = await _authService.LoginAsync("nonexistent", "Password123!");
 
