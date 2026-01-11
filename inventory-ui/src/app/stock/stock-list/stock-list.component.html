@@ -1,0 +1,60 @@
+<div class="stock-container">
+  <div class="header">
+    <h1>Stock Management</h1>
+    <div class="header-actions">
+      <button class="create-btn" (click)="addStock()">+ Add Stock</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-group">
+      <select [(ngModel)]="filterType" class="filter-select">
+        <option value="all">All Stock</option>
+        <option value="product">By Product Code</option>
+        <option value="warehouse">By Warehouse Code</option>
+      </select>
+      <input 
+        type="text" 
+        [(ngModel)]="filterValue" 
+        placeholder="Enter code..." 
+        class="filter-input"
+        *ngIf="filterType !== 'all'"
+      />
+      <button class="filter-btn" (click)="applyFilter()" *ngIf="filterType !== 'all'">Apply Filter</button>
+      <button class="clear-btn" (click)="clearFilter()" *ngIf="filterType !== 'all'">Clear</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading stock...
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="stock-table" *ngIf="!loading && stockItems.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Code</th>
+          <th>Warehouse Code</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of stockItems">
+          <td>{{ item.productCode }}</td>
+          <td>{{ item.warehouseCode }}</td>
+          <td class="quantity">{{ item.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="no-stock" *ngIf="!loading && stockItems.length === 0 && !errorMessage">
+    <p>No stock items found.</p>
+    <button class="create-btn" (click)="addStock()">+ Add Stock</button>
+  </div>
+</div>

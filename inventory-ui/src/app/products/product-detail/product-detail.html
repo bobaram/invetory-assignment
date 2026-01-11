@@ -1,0 +1,30 @@
+<div class="product-detail-container">
+  <button class="back-btn" (click)="goBack()">← Back to Products</button>
+
+  <div class="loading" *ngIf="loading">
+    Loading product details...
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="product-detail-card" *ngIf="!loading && product">
+    <h1>Product Details</h1>
+    
+    <div class="detail-row">
+      <span class="label">Product ID:</span>
+      <span class="value">{{ product.id }}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Product Code:</span>
+      <span class="value">{{ product.code }}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Description:</span>
+      <span class="value">{{ product.description }}</span>
+    </div>
+  </div>
+</div>

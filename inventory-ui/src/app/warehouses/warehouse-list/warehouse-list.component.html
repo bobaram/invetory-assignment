@@ -1,0 +1,31 @@
+<div class="warehouses-container">
+  <div class="header">
+    <h1>Warehouse List</h1>
+    <div class="header-actions">
+      <button class="create-btn" (click)="createWarehouse()">+ Create Warehouse</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading warehouses...
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="warehouses-grid" *ngIf="!loading && warehouses.length > 0">
+    <div class="warehouse-card" *ngFor="let warehouse of warehouses">
+      <div class="warehouse-code">{{ warehouse.code }}</div>
+      <div class="warehouse-name">{{ warehouse.name }}</div>
+      <div class="warehouse-id">ID: {{ warehouse.id }}</div>
+    </div>
+  </div>
+
+  <div class="no-warehouses" *ngIf="!loading && warehouses.length === 0 && !errorMessage">
+    <p>No warehouses found.</p>
+    <p>Create your first warehouse to get started.</p>
+    <button class="create-btn" (click)="createWarehouse()">+ Create Warehouse</button>
+  </div>
+</div>

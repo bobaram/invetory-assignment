@@ -5,8 +5,9 @@ A RESTful API for managing inventory operations including products, warehouses, 
 ## Features
 
 - **Clean Architecture** - Separation of concerns with layered design
-- **JWT Authentication** - Secure user registration and login
+- **JWT Authentication** - Secure user registration and login (API & UI)
 - **RESTful API** - Full CRUD operations for all resources
+- **Angular UI** - Complete UI with authentication, product management, stock, warehouses, and orders
 - **Docker Deployment** - Containerized API and SQL Server database
 - **Unit Tests** - 21 comprehensive tests with 100% pass rate
 - **Global Exception Handling** - Consistent error responses
@@ -16,6 +17,7 @@ A RESTful API for managing inventory operations including products, warehouses, 
 
 - **.NET 9** - Latest .NET framework
 - **ASP.NET Core Web API** - RESTful API framework
+- **Angular 19** - Modern UI framework with standalone components
 - **Entity Framework Core** - ORM for database operations
 - **SQL Server 2022** - Relational database
 - **Docker & Docker Compose** - Containerization
@@ -31,6 +33,7 @@ A RESTful API for managing inventory operations including products, warehouses, 
 ├── Inventory.Infrastructure/   # EF Core DbContext, Repositories
 ├── Inventory.Services/         # Business Logic Services
 ├── Inventory.Tests/            # Unit Tests
+├── inventory-ui/               # Angular 19 UI Application
 └── docker-compose.yml          # Docker orchestration
 ```
 
@@ -40,6 +43,7 @@ A RESTful API for managing inventory operations including products, warehouses, 
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Node.js 18+](https://nodejs.org/) (for Angular UI)
 - Git
 
 ### Running with Docker (Recommended)
@@ -61,6 +65,27 @@ A RESTful API for managing inventory operations including products, warehouses, 
    ```
 
 4. **API is now available at:** `http://localhost:8080`
+
+### Running the Angular UI
+
+1. **Navigate to UI directory**
+   ```bash
+   cd inventory-ui
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
+
+4. **UI is now available at:** `http://localhost:4200`
+
+**Note:** Ensure the API is running before starting the UI.
 
 ### Running Locally (Without Docker)
 
@@ -315,7 +340,8 @@ Authorization: Bearer YOUR_TOKEN_HERE
 
 ## Next Steps
 
-- [ ] Implement Angular UI with module-based architecture
+- [x] Implement Angular UI with module-based architecture ✅
+- [x] JWT Authentication in UI ✅
 - [ ] Add pagination for list endpoints
 - [ ] Implement order history tracking
 - [ ] Add audit logging
@@ -324,5 +350,7 @@ Authorization: Bearer YOUR_TOKEN_HERE
 ---
 
 **API Status:** ✅ Fully functional and deployed with Docker
+
+**UI Status:** ✅ Angular 19 UI with authentication and full CRUD operations
 
 **Author:** SCAD Software Technical Assessment

@@ -1,5 +1,6 @@
 using Inventory.Api.Middleware;
 using Inventory.Core.Interface.Repositories;
+using Inventory.Core.Entities;
 using Inventory.Services.Interfaces;
 using Inventory.Infrastructure.Data;
 using Inventory.Infrastructure.Repositories;
@@ -81,6 +82,37 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("Ensuring database is created...");
         db.Database.EnsureCreated();
         Console.WriteLine("Database created successfully.");
+
+        if (!db.Products.Any())
+        {
+            Console.WriteLine("Seeding initial products...");
+            db.Products.AddRange(
+                new Product { Code = "LAPTOP001", Description = "Dell XPS 15 Laptop" },
+                new Product { Code = "MOUSE001", Description = "Logitech MX Master 3 Mouse" },
+                new Product { Code = "KEYBOARD001", Description = "Mechanical Gaming Keyboard" },
+                new Product { Code = "MONITOR001", Description = "27-inch 4K Monitor" },
+                new Product { Code = "HEADSET001", Description = "Wireless Noise-Cancelling Headset" },
+                new Product { Code = "WEBCAM001", Description = "HD Webcam with Microphone" },
+                new Product { Code = "PRINTER001", Description = "Color Laser Printer" },
+                new Product { Code = "DESK001", Description = "Adjustable Standing Desk" },
+                new Product { Code = "CHAIR001", Description = "Ergonomic Office Chair" },
+                new Product { Code = "TABLET001", Description = "iPad Pro 12.9 inch" }
+            );
+            db.SaveChanges();
+            Console.WriteLine("Seeded 10 dummy products successfully.");
+        }
+
+        if (!db.Warehouses.Any())
+        {
+            Console.WriteLine("Seeding initial warehouses...");
+            db.Warehouses.AddRange(
+                new Warehouse { Code = "WH-MAIN", Name = "Main Warehouse - New York" },
+                new Warehouse { Code = "WH-WEST", Name = "West Coast Warehouse - Los Angeles" },
+                new Warehouse { Code = "WH-SOUTH", Name = "Southern Warehouse - Atlanta" }
+            );
+            db.SaveChanges();
+            Console.WriteLine("Seeded 3 warehouses successfully.");
+        }
     }
     catch (Exception ex)
     {

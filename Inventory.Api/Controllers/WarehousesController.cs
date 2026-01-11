@@ -31,6 +31,7 @@ namespace Inventory.Api.Controllers
             return Ok(warehouse);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateWarehouseDto dto)
         {

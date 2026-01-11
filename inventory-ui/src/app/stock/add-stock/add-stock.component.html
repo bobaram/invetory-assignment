@@ -1,0 +1,63 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2>Add Stock</h2>
+    
+    <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="productCode">Product *</label>
+        <select id="productCode" formControlName="productCode" [class.error]="stockForm.get('productCode')?.invalid && stockForm.get('productCode')?.touched">
+          <option value="">Select Product</option>
+          <option *ngFor="let product of products" [value]="product.code">
+            {{ product.code }} - {{ product.description }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="stockForm.get('productCode')?.invalid && stockForm.get('productCode')?.touched">
+          Product is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="warehouseCode">Warehouse *</label>
+        <select id="warehouseCode" formControlName="warehouseCode" [class.error]="stockForm.get('warehouseCode')?.invalid && stockForm.get('warehouseCode')?.touched">
+          <option value="">Select Warehouse</option>
+          <option *ngFor="let warehouse of warehouses" [value]="warehouse.code">
+            {{ warehouse.code }} - {{ warehouse.name }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="stockForm.get('warehouseCode')?.invalid && stockForm.get('warehouseCode')?.touched">
+          Warehouse is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity *</label>
+        <input 
+          type="number" 
+          id="quantity" 
+          formControlName="quantity"
+          placeholder="Enter quantity"
+          min="1"
+          [class.error]="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched"
+        />
+        <span class="error-text" *ngIf="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched">
+          Quantity must be at least 1
+        </span>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="stockForm.invalid || loading">
+          {{ loading ? 'Adding...' : 'Add Stock' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

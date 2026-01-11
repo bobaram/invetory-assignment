@@ -17,6 +17,7 @@ namespace Inventory.Api.Controllers
             _stockService = stockService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddStock([FromBody] AddStockDto dto)
         {

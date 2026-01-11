@@ -1,0 +1,50 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2>Create New Product</h2>
+    
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="code">Product Code *</label>
+        <input 
+          type="text" 
+          id="code" 
+          formControlName="code"
+          placeholder="e.g., PROD001"
+          [class.error]="productForm.get('code')?.invalid && productForm.get('code')?.touched"
+        />
+        <span class="error-text" *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
+          Product code is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <input 
+          type="text" 
+          id="description" 
+          formControlName="description"
+          placeholder="e.g., Dell XPS 15 Laptop"
+          [class.error]="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+        />
+        <span class="error-text" *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched">
+          Description is required
+        </span>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="productForm.invalid || loading">
+          {{ loading ? 'Creating...' : 'Create Product' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

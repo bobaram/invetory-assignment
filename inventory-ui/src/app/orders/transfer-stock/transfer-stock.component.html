@@ -1,0 +1,76 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2>Transfer Stock Between Warehouses</h2>
+    
+    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="productCode">Product *</label>
+        <select id="productCode" formControlName="productCode" [class.error]="transferForm.get('productCode')?.invalid && transferForm.get('productCode')?.touched">
+          <option value="">Select Product</option>
+          <option *ngFor="let product of products" [value]="product.code">
+            {{ product.code }} - {{ product.description }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="transferForm.get('productCode')?.invalid && transferForm.get('productCode')?.touched">
+          Product is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="sourceWarehouseCode">Source Warehouse *</label>
+        <select id="sourceWarehouseCode" formControlName="sourceWarehouseCode" [class.error]="transferForm.get('sourceWarehouseCode')?.invalid && transferForm.get('sourceWarehouseCode')?.touched">
+          <option value="">Select Source Warehouse</option>
+          <option *ngFor="let warehouse of warehouses" [value]="warehouse.code">
+            {{ warehouse.code }} - {{ warehouse.name }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="transferForm.get('sourceWarehouseCode')?.invalid && transferForm.get('sourceWarehouseCode')?.touched">
+          Source warehouse is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="destinationWarehouseCode">Destination Warehouse *</label>
+        <select id="destinationWarehouseCode" formControlName="destinationWarehouseCode" [class.error]="transferForm.get('destinationWarehouseCode')?.invalid && transferForm.get('destinationWarehouseCode')?.touched">
+          <option value="">Select Destination Warehouse</option>
+          <option *ngFor="let warehouse of warehouses" [value]="warehouse.code">
+            {{ warehouse.code }} - {{ warehouse.name }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="transferForm.get('destinationWarehouseCode')?.invalid && transferForm.get('destinationWarehouseCode')?.touched">
+          Destination warehouse is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity *</label>
+        <input 
+          type="number" 
+          id="quantity" 
+          formControlName="quantity"
+          placeholder="Enter quantity to transfer"
+          min="1"
+          [class.error]="transferForm.get('quantity')?.invalid && transferForm.get('quantity')?.touched"
+        />
+        <span class="error-text" *ngIf="transferForm.get('quantity')?.invalid && transferForm.get('quantity')?.touched">
+          Quantity must be at least 1
+        </span>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="transferForm.invalid || loading">
+          {{ loading ? 'Transferring...' : 'Transfer Stock' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
