@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  inventory-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: inventory-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongP@ssw0rd!
+    ports:
+      - "1433:1433"
+    networks:
+      - inventory-network
+
+  inventory-api:
+    image: inventory-api
+    build:
+      context: .
+      dockerfile: Inventory.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - inventory-db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=inventory-db;Database=InventoryDb;User Id=sa;Password=StrongP@ssw0rd!;TrustServerCertificate=True;
+      - Jwt__Key=ThisIsASuperSecretKeyForMySeniorDevTest123!
+      - Jwt__Issuer=InventoryApi
+      - Jwt__Audience=InventoryClient
+    networks:
+      - inventory-network
+
+networks:
+  inventory-network:
+    driver: bridge
